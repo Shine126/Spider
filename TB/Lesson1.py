@@ -9,6 +9,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC 
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.chrome.service import Service
 from urllib.parse import quote
 from pyquery import PyQuery as pq 
 
@@ -21,7 +22,7 @@ class TaobaoSpider:
 		options.add_experimental_option("excludeSwitches",["enable-automation"])
 		options.add_experimental_option("useAutomationExtension",False)
 		options.add_experimental_option("prefs",{"profile.managed_default_content_setting.images":2})
-		self.browser = webdriver.Chrome(options = options,executable_path = self.get_chromedriver_exe_path())
+		self.browser = webdriver.Chrome(options = options,service = Service(self.get_chromedriver_exe_path()))
 		self.browser.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
 		  "source": """
 			Object.defineProperty(navigator, 'webdriver', {
