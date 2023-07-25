@@ -15,14 +15,18 @@ from pyquery import PyQuery as pq
 
 class TaobaoSpider:
 	def __init__(self):
+	
 		options = webdriver.ChromeOptions()
+		#浏览器驱动版本待更新，目前无法调用！
+		service = Service(self.get_chromedriver_exe_path())
+	
 		self.get_user_info()
 		if self.is_window():
 			options.binary_location = self.chromepath
 		options.add_experimental_option("excludeSwitches",["enable-automation"])
 		options.add_experimental_option("useAutomationExtension",False)
 		options.add_experimental_option("prefs",{"profile.managed_default_content_setting.images":2})
-		self.browser = webdriver.Chrome(options = options,service = Service(self.get_chromedriver_exe_path()))
+		self.browser = webdriver.Chrome(options = options,service = service)
 		self.browser.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
 		  "source": """
 			Object.defineProperty(navigator, 'webdriver', {
